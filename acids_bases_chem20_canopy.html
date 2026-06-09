@@ -1,0 +1,790 @@
+
+<h2 class="sr-only">Acids and Bases — Alberta Chemistry 20. Six interactive modules covering Arrhenius theory, strengths of acids and bases, pH and pOH calculations, indicators, titration analysis, and titration curves.</h2>
+<style>
+*{box-sizing:border-box}
+.ab{font-size:15px;line-height:1.65}
+.ab-hdr{background:#346B40;color:#fff;padding:12px 20px;display:flex;align-items:center;gap:9px;font-size:16px;font-weight:600}
+.ab-hic{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center}
+.ab-sub{padding:1rem 1.25rem 0}
+.ab-ttl{font-size:18px;font-weight:500;color:var(--color-text-primary);margin:0 0 2px}
+.ab-subt{font-size:12px;color:var(--color-text-secondary);margin:0 0 .7rem}
+.ab-tabs{display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:.5px solid var(--color-border-tertiary)}
+.ab-tab{padding:9px 12px;font-size:13px;color:var(--color-text-secondary);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;user-select:none}
+.ab-tab:hover{color:var(--color-text-primary)}
+.ab-tab.on{color:#4E9E5F;border-bottom-color:#4E9E5F;font-weight:500}
+.ab-tab.done::after{content:' ✓';font-size:11px;color:#4E9E5F}
+.ab-body{padding:1.25rem}
+.sec{display:none}.sec.on{display:block}
+.pbw{height:3px;background:var(--color-background-secondary);border-radius:2px;margin-bottom:1.25rem}
+.pb{height:3px;background:#4E9E5F;border-radius:2px;transition:width .4s}
+.cbox{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:1rem}
+.cbox-ttl{font-size:14px;font-weight:500;color:var(--color-text-primary);margin:0 0 5px}
+.cbox-body{font-size:14px;color:var(--color-text-secondary);margin:0}
+.igrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px;margin-bottom:1.1rem}
+.icard{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:11px 13px}
+.icard-lbl{font-size:12px;color:var(--color-text-secondary);margin:0 0 3px}
+.icard-val{font-size:15px;font-weight:500;color:var(--color-text-primary);margin:0}
+.acc{border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:8px;overflow:hidden}
+.acc-btn{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;cursor:pointer;font-size:14px;font-weight:500;color:var(--color-text-primary);background:var(--color-background-primary);user-select:none;gap:10px}
+.acc-btn:hover{background:var(--color-background-secondary)}
+.acc-ico{font-size:11px;color:var(--color-text-secondary);transition:transform .2s;flex-shrink:0}
+.acc-ico.open{transform:rotate(180deg)}
+.acc-body{padding:12px 14px 14px;font-size:14px;color:var(--color-text-secondary);line-height:1.75;border-top:.5px solid var(--color-border-tertiary)}
+.acc-body p{margin:8px 0 0}.acc-body p:first-child{margin-top:0}
+.cl{border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:9px 13px;margin:9px 0;font-size:13px;line-height:1.6}
+.cl-t{background:#E6F1DD;color:#24492C;border-left:3px solid #4E9E5F}
+.cl-a{background:#FAEEDA;color:#633806;border-left:3px solid #BA7517}
+.cl-b{background:#E6F1FB;color:#0C447C;border-left:3px solid #378ADD}
+.cl-r{background:#FCEBEB;color:#791F1F;border-left:3px solid #E24B4A}
+.wx-steps{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem}
+.wx-step{display:flex;gap:11px;align-items:flex-start}
+.wx-n{width:26px;height:26px;border-radius:50%;background:#E6F1DD;color:#24492C;font-size:12px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.wx-c{flex:1}
+.wx-lbl{font-size:13px;font-weight:500;color:var(--color-text-primary);margin:0 0 3px}
+.wx-det{font-size:13px;color:var(--color-text-secondary);margin:0}
+.wx-eq{font-family:var(--font-mono);font-size:13px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:6px 10px;margin-top:5px;color:var(--color-text-primary);display:block}
+.fbox{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:11px 15px;font-family:var(--font-mono);font-size:15px;text-align:center;margin:10px 0;color:var(--color-text-primary)}
+.ccard{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.1rem 1.25rem;margin-bottom:1rem}
+.qhead{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:5px;letter-spacing:.04em;text-transform:uppercase}
+.qprompt{font-size:14px;color:var(--color-text-primary);margin-bottom:9px;font-weight:500;line-height:1.5}
+.qopt{display:block;padding:9px 13px;margin:5px 0;border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);cursor:pointer;font-size:14px;color:var(--color-text-primary);background:var(--color-background-primary);user-select:none}
+.qopt:hover{background:var(--color-background-secondary)}
+.qopt.right{background:#E6F1DD;border-color:#4E9E5F;color:#24492C;pointer-events:none}
+.qopt.wrong{background:#FAECE7;border-color:#D85A30;color:#4A1B0C;pointer-events:none}
+.qopt.locked{pointer-events:none}
+.qfb{font-size:13px;padding:9px 13px;border-radius:var(--border-radius-md);margin-top:7px;display:none;line-height:1.5}
+.qfb.on{display:block}.qfb.right{background:#E6F1DD;color:#24492C}.qfb.wrong{background:#FAECE7;color:#4A1B0C}
+.hrule{border:none;border-top:.5px solid var(--color-border-tertiary);margin:1.1rem 0}
+.btn-next{margin-top:1.25rem;padding:8px 18px;font-size:14px;font-weight:500;color:#24492C;background:#E6F1DD;border:.5px solid #4E9E5F;border-radius:var(--border-radius-md);cursor:pointer;font-family:inherit}
+.btn-next:hover{background:#BFE0C6}
+.pill{padding:2px 7px;border-radius:4px;font-weight:500;font-size:13px}
+.pt{background:#E6F1DD;color:#24492C}.pa{background:#FAEEDA;color:#854F0B}.pb2{background:#E6F1FB;color:#0C447C}
+.mono{font-family:var(--font-mono);font-size:13px}
+.sec-lbl{font-size:13px;font-weight:500;color:var(--color-text-primary);margin:0 0 9px}
+.seg{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:11px}
+.segbtn{padding:7px 12px;font-size:13px;border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer;user-select:none;font-family:inherit}
+.segbtn:hover{background:var(--color-background-secondary)}
+.segbtn.on{background:#E6F1DD;border-color:#4E9E5F;color:#24492C;font-weight:500}
+.ninp{width:80px;font-size:13px;padding:7px 9px;border:.5px solid var(--color-border-tertiary);border-radius:6px;background:var(--color-background-primary);color:var(--color-text-primary)}
+.indrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin-top:14px}
+.indcard{text-align:center}
+.indsw{height:54px;border-radius:10px;border:.5px solid var(--color-border-tertiary);transition:background .25s}
+.indname{font-size:12px;font-weight:500;color:var(--color-text-primary);margin:6px 0 1px}
+.indclr{font-size:11px;color:var(--color-text-secondary)}
+.indrange{font-size:10px;color:var(--color-text-secondary);margin-top:1px}
+.rng{width:100%;margin:4px 0}
+</style>
+
+<div class="ab">
+<div class="ab-hdr"><span class="ab-hic"><svg viewBox="0 0 24 24" width="18" height="18" fill="#fff" aria-hidden="true"><path d="M12 2C8.7 2 6 4.7 6 8c0 2.6 1.7 4.8 4 5.6V21a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-7.4c2.3-.8 4-3 4-5.6 0-3.3-2.7-6-6-6z"/></svg></span>Canopy Science</div>
+<div class="ab-sub">
+  <p class="ab-ttl">Acids &amp; Bases</p>
+  <p class="ab-subt">Alberta Chemistry 20 · 6 interactive modules</p>
+</div>
+<div class="ab-tabs" role="tablist">
+  <div class="ab-tab on" onclick="goTo(0)" id="t0">1. Arrhenius</div>
+  <div class="ab-tab" onclick="goTo(1)" id="t1">2. Strengths</div>
+  <div class="ab-tab" onclick="goTo(2)" id="t2">3. pH &amp; pOH</div>
+  <div class="ab-tab" onclick="goTo(3)" id="t3">4. Indicators</div>
+  <div class="ab-tab" onclick="goTo(4)" id="t4">5. Titration</div>
+  <div class="ab-tab" onclick="goTo(5)" id="t5">6. Curves</div>
+</div>
+
+<div class="ab-body">
+<div class="pbw"><div class="pb" id="pb" style="width:16.6%"></div></div>
+
+<!-- ===== MODULE 1: ARRHENIUS ===== -->
+<div class="sec on" id="s0">
+  <div class="cbox">
+    <p class="cbox-ttl">The Arrhenius theory of acids and bases</p>
+    <p class="cbox-body">Svante Arrhenius defined acids and bases by what they release when dissolved in water: an <strong>acid produces hydrogen ions (H⁺)</strong> and a <strong>base produces hydroxide ions (OH⁻)</strong> in aqueous solution.</p>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a1')"><span>Operational vs. theoretical definitions</span><span class="acc-ico" id="a1-i">▼</span></div>
+    <div class="acc-body" id="a1">
+      <p>Chemists describe acids and bases in two ways:</p>
+      <p><strong>Operational</strong> definitions describe what we <em>observe</em> in the lab — the properties used to identify a substance:</p>
+      <p>• <strong>Acids:</strong> taste sour, turn blue litmus red, react with active metals to release H₂ gas, and conduct electricity.</p>
+      <p>• <strong>Bases:</strong> taste bitter, feel slippery, turn red litmus blue, and conduct electricity.</p>
+      <p><strong>Theoretical</strong> definitions explain <em>why</em> — Arrhenius theory says these properties come from the ions produced in water.</p>
+      <div class="cl cl-t">Operational = what you see and measure. Theoretical = the explanation for those observations. Both are important in Chemistry 20.</div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a2')"><span>What acids and bases produce in water</span><span class="acc-ico" id="a2-i">▼</span></div>
+    <div class="acc-body" id="a2">
+      <p>An Arrhenius <strong>acid</strong> ionizes in water to release H⁺ (which immediately bonds to water to form the hydronium ion, H₃O⁺):</p>
+      <span class="wx-eq">HCl(aq) → H⁺(aq) + Cl⁻(aq)</span>
+      <p>An Arrhenius <strong>base</strong> dissociates in water to release OH⁻:</p>
+      <span class="wx-eq">NaOH(aq) → Na⁺(aq) + OH⁻(aq)</span>
+      <div class="cl cl-a">Neutralization happens when an acid and base react: the H⁺ and OH⁻ combine to form water (H⁺ + OH⁻ → H₂O), leaving a salt behind.</div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a3')"><span>Limitations of the Arrhenius theory</span><span class="acc-ico" id="a3-i">▼</span></div>
+    <div class="acc-body" id="a3">
+      <p>The Arrhenius theory works well but has limits:</p>
+      <p>• It only applies to <strong>aqueous (water) solutions</strong>.</p>
+      <p>• It can't explain bases that don't contain OH⁻ — for example, ammonia (NH₃) is clearly basic, but has no hydroxide to release directly.</p>
+      <div class="cl cl-b">These gaps are solved by the Brønsted–Lowry theory (acids donate protons, bases accept them), which you'll meet in Chemistry 30. For Chemistry 20, the Arrhenius model is your main tool.</div>
+    </div>
+  </div>
+
+  <div class="ccard">
+    <p class="sec-lbl">Classify the substance</p>
+    <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 10px;">Click a substance to see how the Arrhenius theory classifies it and what it produces in water.</p>
+    <div class="seg" id="arrseg"></div>
+    <div id="arrout"></div>
+  </div>
+
+  <hr class="hrule">
+  <p class="qhead">Knowledge check — Module 1</p>
+  <p class="qprompt">According to the Arrhenius theory, what does an acid produce when dissolved in water?</p>
+  <div id="q1o">
+    <div class="qopt" onclick="A('q1','a')">Hydroxide ions (OH⁻)</div>
+    <div class="qopt" onclick="A('q1','b')">Hydrogen ions (H⁺ / hydronium H₃O⁺)</div>
+    <div class="qopt" onclick="A('q1','c')">Sodium ions (Na⁺)</div>
+    <div class="qopt" onclick="A('q1','d')">Oxygen gas (O₂)</div>
+  </div>
+  <div class="qfb" id="q1f"></div>
+  <hr class="hrule" style="margin-top:.75rem">
+  <p class="qprompt">"Turns blue litmus red" and "reacts with metals to give H₂ gas" are examples of what kind of definition?</p>
+  <div id="q2o">
+    <div class="qopt" onclick="A('q2','a')">Theoretical definitions</div>
+    <div class="qopt" onclick="A('q2','b')">Operational definitions (based on observable properties)</div>
+    <div class="qopt" onclick="A('q2','c')">Brønsted–Lowry definitions</div>
+    <div class="qopt" onclick="A('q2','d')">Neutral definitions</div>
+  </div>
+  <div class="qfb" id="q2f"></div>
+  <button class="btn-next" onclick="goTo(1)">Next: Strengths of Acids &amp; Bases →</button>
+</div>
+
+<!-- ===== MODULE 2: STRENGTHS ===== -->
+<div class="sec" id="s1">
+  <div class="cbox">
+    <p class="cbox-ttl">Strong vs. weak acids and bases</p>
+    <p class="cbox-body">The <strong>strength</strong> of an acid or base describes <strong>how completely it ionizes</strong> in water — not how much is dissolved. Strong acids and bases ionize almost completely; weak ones ionize only partially.</p>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a4')"><span>Degree of ionization</span><span class="acc-ico" id="a4-i">▼</span></div>
+    <div class="acc-body" id="a4">
+      <p><strong>Strong acids and bases</strong> ionize essentially 100% — nearly every molecule breaks apart into ions.</p>
+      <p><strong>Weak acids and bases</strong> ionize only partially — most of the molecules stay intact, and only a small fraction form ions.</p>
+      <p>Common <strong>strong acids:</strong> HCl, HBr, HI, HNO₃, H₂SO₄, HClO₄. Common <strong>strong bases:</strong> Group 1 hydroxides like NaOH and KOH.</p>
+      <div class="cl cl-t">Acetic acid (CH₃COOH, in vinegar) is a classic weak acid — at any moment only about 1% of its molecules are ionized.</div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a5')"><span>Strength vs. concentration — don't mix them up!</span><span class="acc-ico" id="a5-i">▼</span></div>
+    <div class="acc-body" id="a5">
+      <p>This is the most commonly confused idea in the whole unit. Strength and concentration are <strong>independent</strong> properties:</p>
+      <p>• <strong>Concentration</strong> = how much acid is dissolved per litre (dilute vs. concentrated).</p>
+      <p>• <strong>Strength</strong> = what fraction of it ionizes (weak vs. strong).</p>
+      <div class="cl cl-a">You can have a <strong>dilute strong acid</strong> (e.g. 0.001 mol/L HCl) or a <strong>concentrated weak acid</strong> (e.g. 10 mol/L acetic acid). "Strong" does not mean "concentrated," and "weak" does not mean "dilute."</div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a6')"><span>Conductivity and ionization</span><span class="acc-ico" id="a6-i">▼</span></div>
+    <div class="acc-body" id="a6">
+      <p>Electric current in a solution is carried by ions, so the more ions present, the better the solution conducts.</p>
+      <p>At the same concentration, a <strong>strong acid conducts strongly</strong> (lots of ions) while a <strong>weak acid conducts weakly</strong> (few ions). This is one operational way to tell them apart in the lab.</p>
+      <div class="cl cl-b">A bright bulb in a conductivity tester signals many ions (strong); a dim bulb signals few ions (weak). A non-conductor would have essentially no ions at all.</div>
+    </div>
+  </div>
+
+  <div class="ccard">
+    <p class="sec-lbl">Strong vs. weak — at the particle level</p>
+    <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 10px;">Same concentration, different strengths. Toggle to compare how much each ionizes.</p>
+    <div class="seg" id="strseg">
+      <div class="segbtn on" onclick="showStr('strong',this)">Strong acid</div>
+      <div class="segbtn" onclick="showStr('weak',this)">Weak acid</div>
+    </div>
+    <svg id="strsvg" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;display:block;margin:0 auto"></svg>
+    <div id="strout"></div>
+  </div>
+
+  <hr class="hrule">
+  <p class="qhead">Knowledge check — Module 2</p>
+  <p class="qprompt">What does it mean to call an acid "strong"?</p>
+  <div id="q3o">
+    <div class="qopt" onclick="A('q3','a')">It is very concentrated</div>
+    <div class="qopt" onclick="A('q3','b')">It ionizes almost completely in water</div>
+    <div class="qopt" onclick="A('q3','c')">It has a very high volume</div>
+    <div class="qopt" onclick="A('q3','d')">It tastes the most sour</div>
+  </div>
+  <div class="qfb" id="q3f"></div>
+  <hr class="hrule" style="margin-top:.75rem">
+  <p class="qprompt">Which statement is possible?</p>
+  <div id="q4o">
+    <div class="qopt" onclick="A('q4','a')">A dilute solution of a strong acid</div>
+    <div class="qopt" onclick="A('q4','b')">Nothing — strong always means concentrated</div>
+    <div class="qopt" onclick="A('q4','c')">Weak acids cannot be concentrated</div>
+    <div class="qopt" onclick="A('q4','d')">Strength and concentration are always the same thing</div>
+  </div>
+  <div class="qfb" id="q4f"></div>
+  <button class="btn-next" onclick="goTo(2)">Next: pH &amp; pOH Calculations →</button>
+</div>
+
+<!-- ===== MODULE 3: pH & pOH ===== -->
+<div class="sec" id="s2">
+  <div class="cbox">
+    <p class="cbox-ttl">pH &amp; pOH calculations</p>
+    <p class="cbox-body">pH is a number from 0 to 14 that measures how acidic or basic a solution is, based on its hydrogen ion concentration. pOH does the same using hydroxide ions.</p>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a7')"><span>The pH scale</span><span class="acc-ico" id="a7-i">▼</span></div>
+    <div class="acc-body" id="a7">
+      <p>The pH scale runs from 0 to 14 at 25°C:</p>
+      <p>• <strong>pH &lt; 7</strong> → acidic &nbsp; • <strong>pH = 7</strong> → neutral &nbsp; • <strong>pH &gt; 7</strong> → basic</p>
+      <span class="wx-eq">pH = −log[H⁺] &nbsp;&nbsp;&nbsp; [H⁺] = 10⁻ᵖᴴ</span>
+      <div class="cl cl-t">The scale is logarithmic — each whole pH unit is a 10× change in [H⁺]. A pH 2 solution has 10 times the [H⁺] of pH 3, and 100 times that of pH 4.</div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a8')"><span>pOH and the water relationship</span><span class="acc-ico" id="a8-i">▼</span></div>
+    <div class="acc-body" id="a8">
+      <p>pOH measures hydroxide concentration the same way pH measures hydrogen ions:</p>
+      <span class="wx-eq">pOH = −log[OH⁻] &nbsp;&nbsp;&nbsp; [OH⁻] = 10⁻ᵖᴼᴴ</span>
+      <p>In any aqueous solution at 25°C, pH and pOH always add to 14:</p>
+      <span class="wx-eq">pH + pOH = 14</span>
+      <div class="cl cl-b">This comes from the self-ionization of water: [H⁺][OH⁻] = 1.0 × 10⁻¹⁴. If you know one of pH or pOH, you can always find the other.</div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a9')"><span>Worked example: both directions</span><span class="acc-ico" id="a9-i">▼</span></div>
+    <div class="acc-body" id="a9">
+      <p><strong>Finding pH from concentration:</strong> A solution has [H⁺] = 1.0 × 10⁻⁴ mol/L.</p>
+      <span class="wx-eq">pH = −log(1.0 × 10⁻⁴) = 4.00 &nbsp;(acidic)</span>
+      <p><strong>Finding concentration from pH:</strong> A solution has pH = 9.0.</p>
+      <span class="wx-eq">[H⁺] = 10⁻⁹ = 1.0 × 10⁻⁹ mol/L</span>
+      <span class="wx-eq">pOH = 14 − 9 = 5, so [OH⁻] = 10⁻⁵ mol/L</span>
+      <div class="cl cl-a">Tip: when [H⁺] is written as 1.0 × 10⁻ⁿ, the pH is simply n. The math gets more involved only when the coefficient isn't exactly 1.0.</div>
+    </div>
+  </div>
+
+  <div class="ccard">
+    <p class="sec-lbl">pH / pOH calculator</p>
+    <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 11px;">Enter a hydrogen ion concentration to see pH, pOH, [OH⁻], and where it sits on the scale.</p>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+      <label style="font-size:13px;color:var(--color-text-secondary);">[H⁺] =</label>
+      <input type="number" id="hin" value="1.0" step="any" class="ninp" oninput="calcpH()">
+      <label style="font-size:13px;color:var(--color-text-secondary);">× 10^</label>
+      <input type="number" id="hexp" value="-4" step="1" class="ninp" style="width:58px;" oninput="calcpH()">
+      <label style="font-size:13px;color:var(--color-text-secondary);">mol/L</label>
+    </div>
+    <div id="phout" style="margin-top:13px;"></div>
+    <svg id="phscale" viewBox="0 0 400 56" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;display:block;margin:12px auto 0"></svg>
+  </div>
+
+  <hr class="hrule">
+  <p class="qhead">Knowledge check — Module 3</p>
+  <p class="qprompt">A solution has [H⁺] = 1.0 × 10⁻² mol/L. What is its pH, and is it acidic or basic?</p>
+  <div id="q5o">
+    <div class="qopt" onclick="A('q5','a')">pH = 2, acidic</div>
+    <div class="qopt" onclick="A('q5','b')">pH = 12, basic</div>
+    <div class="qopt" onclick="A('q5','c')">pH = 2, basic</div>
+    <div class="qopt" onclick="A('q5','d')">pH = 7, neutral</div>
+  </div>
+  <div class="qfb" id="q5f"></div>
+  <hr class="hrule" style="margin-top:.75rem">
+  <p class="qprompt">A solution has pH = 11. What is its pOH?</p>
+  <div id="q6o">
+    <div class="qopt" onclick="A('q6','a')">pOH = 11</div>
+    <div class="qopt" onclick="A('q6','b')">pOH = 3</div>
+    <div class="qopt" onclick="A('q6','c')">pOH = 25</div>
+    <div class="qopt" onclick="A('q6','d')">pOH = 7</div>
+  </div>
+  <div class="qfb" id="q6f"></div>
+  <button class="btn-next" onclick="goTo(3)">Next: Acid-Base Indicators →</button>
+</div>
+
+<!-- ===== MODULE 4: INDICATORS ===== -->
+<div class="sec" id="s3">
+  <div class="cbox">
+    <p class="cbox-ttl">Acid-base indicators</p>
+    <p class="cbox-body">An <strong>indicator</strong> is a substance that changes colour depending on the pH of a solution. Each indicator switches colour over a specific, narrow <strong>pH range</strong>.</p>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a10')"><span>How indicators work</span><span class="acc-ico" id="a10-i">▼</span></div>
+    <div class="acc-body" id="a10">
+      <p>Most indicators are themselves <strong>weak acids</strong> whose acid form is one colour and whose ionized (conjugate base) form is a different colour.</p>
+      <p>As the pH changes, the balance between these two forms shifts, and the colour changes. Each indicator flips over its own characteristic pH range.</p>
+      <div class="cl cl-t">Because the change happens over a range (not a single pH), a single indicator tells you roughly where the pH is — not an exact value.</div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a11')"><span>Common indicators and their ranges</span><span class="acc-ico" id="a11-i">▼</span></div>
+    <div class="acc-body" id="a11">
+      <p>Four indicators you should know for Chemistry 20:</p>
+      <p>• <strong>Methyl orange:</strong> red (below 3.1) → yellow (above 4.4)</p>
+      <p>• <strong>Litmus:</strong> red (below ~5) → blue (above ~8)</p>
+      <p>• <strong>Bromothymol blue:</strong> yellow (below 6.0) → blue (above 7.6)</p>
+      <p>• <strong>Phenolphthalein:</strong> colourless (below 8.3) → pink (above 10.0)</p>
+      <div class="cl cl-a">Phenolphthalein is the most common titration indicator — it's easy to spot the moment a colourless solution turns faint pink.</div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a12')"><span>Estimating pH with indicators</span><span class="acc-ico" id="a12-i">▼</span></div>
+    <div class="acc-body" id="a12">
+      <p>One indicator narrows the pH to a range. To estimate more precisely, you can use several indicators together — or a <strong>universal indicator</strong>, which is a blend that shows a continuous rainbow of colours across the whole pH scale.</p>
+      <div class="cl cl-b">For an exact pH value, a pH meter (electronic probe) is used instead of indicators. Indicators are quick and visual; meters are precise.</div>
+    </div>
+  </div>
+
+  <div class="ccard">
+    <p class="sec-lbl">Indicator explorer</p>
+    <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 6px;">Drag the slider to change the pH and watch each indicator change colour in real time.</p>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span style="font-size:13px;color:var(--color-text-secondary);">pH</span>
+      <input type="range" min="0" max="14" step="0.1" value="7" class="rng" id="phrng" oninput="updInd(this.value)">
+      <span class="mono" id="phrngval" style="font-size:16px;font-weight:600;color:#346B40;min-width:34px;text-align:right">7.0</span>
+    </div>
+    <div class="indrow" id="indrow"></div>
+  </div>
+
+  <hr class="hrule">
+  <p class="qhead">Knowledge check — Module 4</p>
+  <p class="qprompt">You add phenolphthalein to a solution and it stays colourless. What do you know about the pH?</p>
+  <div id="q7o">
+    <div class="qopt" onclick="A('q7','a')">The pH is above 10</div>
+    <div class="qopt" onclick="A('q7','b')">The pH is below about 8.3</div>
+    <div class="qopt" onclick="A('q7','c')">The pH is exactly 7</div>
+    <div class="qopt" onclick="A('q7','d')">The solution contains no water</div>
+  </div>
+  <div class="qfb" id="q7f"></div>
+  <hr class="hrule" style="margin-top:.75rem">
+  <p class="qprompt">Why does an indicator change colour over a <em>range</em> of pH rather than at a single value?</p>
+  <div id="q8o">
+    <div class="qopt" onclick="A('q8','a')">Because it is a weak acid with two differently-coloured forms whose balance shifts gradually</div>
+    <div class="qopt" onclick="A('q8','b')">Because it slowly evaporates</div>
+    <div class="qopt" onclick="A('q8','c')">Because pH meters are inaccurate</div>
+    <div class="qopt" onclick="A('q8','d')">Because it reacts completely with water at pH 7</div>
+  </div>
+  <div class="qfb" id="q8f"></div>
+  <button class="btn-next" onclick="goTo(4)">Next: Titration Analysis →</button>
+</div>
+
+<!-- ===== MODULE 5: TITRATION ANALYSIS ===== -->
+<div class="sec" id="s4">
+  <div class="cbox">
+    <p class="cbox-ttl">Titration analysis</p>
+    <p class="cbox-body">A <strong>titration</strong> is a technique for finding the unknown concentration of an acid or base by reacting it with a solution of known concentration (the <strong>titrant</strong>) until they exactly neutralize.</p>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a13')"><span>How a titration works</span><span class="acc-ico" id="a13-i">▼</span></div>
+    <div class="acc-body" id="a13">
+      <p>A known-concentration titrant is added from a burette to a measured volume of the unknown solution, drop by drop, until the reaction is exactly complete.</p>
+      <p>• <strong>Equivalence point:</strong> the moles of acid and base are stoichiometrically equal (the true endpoint of the reaction).</p>
+      <p>• <strong>Endpoint:</strong> the point where the indicator changes colour — chosen to match the equivalence point as closely as possible.</p>
+      <div class="cl cl-t">Good technique means doing several trials and averaging the volumes that agree closely (concordant results) for an accurate answer.</div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a14')"><span>The neutralization calculation</span><span class="acc-ico" id="a14-i">▼</span></div>
+    <div class="acc-body" id="a14">
+      <p>At the equivalence point, use the mole ratio from the balanced equation. For a <strong>1:1</strong> reaction (like HCl + NaOH), the moles of acid equal the moles of base:</p>
+      <span class="wx-eq">moles = concentration × volume &nbsp;(n = C × V)</span>
+      <span class="wx-eq">Cₐ × Vₐ = C_b × V_b &nbsp;(for a 1:1 ratio)</span>
+      <p>For other ratios, scale by the coefficients. Example: H₂SO₄ + 2NaOH means moles of NaOH = 2 × moles of H₂SO₄.</p>
+      <div class="cl cl-a">Always start from the balanced equation to get the correct mole ratio — it's the most common place to lose marks.</div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a15')"><span>Worked example</span><span class="acc-ico" id="a15-i">▼</span></div>
+    <div class="acc-body" id="a15">
+      <p>25.0 mL of NaOH is neutralized by 18.5 mL of 0.100 mol/L HCl. Find [NaOH]. (HCl + NaOH → NaCl + H₂O, a 1:1 ratio.)</p>
+      <span class="wx-eq">moles HCl = 0.100 × 0.0185 = 1.85 × 10⁻³ mol</span>
+      <span class="wx-eq">moles NaOH = 1.85 × 10⁻³ mol (1:1 ratio)</span>
+      <span class="wx-eq">[NaOH] = 1.85 × 10⁻³ ÷ 0.0250 = 0.0740 mol/L</span>
+      <div class="cl cl-b">Watch your units: convert millilitres to litres (÷ 1000) before using n = C × V.</div>
+    </div>
+  </div>
+
+  <div class="ccard">
+    <p class="sec-lbl">Titration calculator</p>
+    <p style="font-size:13px;color:var(--color-text-secondary);margin:0 0 11px;">Enter your titration data to find the unknown concentration, with the steps shown.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+      <div><label style="font-size:12px;color:var(--color-text-secondary);display:block;margin-bottom:3px;">Titrant concentration (mol/L)</label>
+        <input type="number" id="tc" value="0.100" step="any" class="ninp" style="width:100%" oninput="calcTit()"></div>
+      <div><label style="font-size:12px;color:var(--color-text-secondary);display:block;margin-bottom:3px;">Titrant volume used (mL)</label>
+        <input type="number" id="tv" value="18.5" step="any" class="ninp" style="width:100%" oninput="calcTit()"></div>
+      <div><label style="font-size:12px;color:var(--color-text-secondary);display:block;margin-bottom:3px;">Sample volume (mL)</label>
+        <input type="number" id="sv" value="25.0" step="any" class="ninp" style="width:100%" oninput="calcTit()"></div>
+      <div><label style="font-size:12px;color:var(--color-text-secondary);display:block;margin-bottom:3px;">Mole ratio (titrant : sample)</label>
+        <select id="ratio" class="ninp" style="width:100%" onchange="calcTit()">
+          <option value="1">1 : 1 (e.g. HCl + NaOH)</option>
+          <option value="2">2 : 1 (e.g. HCl + Ca(OH)₂)</option>
+          <option value="0.5">1 : 2 (e.g. H₂SO₄ + NaOH)</option>
+        </select></div>
+    </div>
+    <div id="titout" style="margin-top:13px;"></div>
+  </div>
+
+  <hr class="hrule">
+  <p class="qhead">Knowledge check — Module 5</p>
+  <p class="qprompt">At the equivalence point of a titration, what is true?</p>
+  <div id="q9o">
+    <div class="qopt" onclick="A('q9','a')">The indicator has just been added</div>
+    <div class="qopt" onclick="A('q9','b')">The moles of acid and base are stoichiometrically equal</div>
+    <div class="qopt" onclick="A('q9','c')">The burette is empty</div>
+    <div class="qopt" onclick="A('q9','d')">The pH is always exactly 1</div>
+  </div>
+  <div class="qfb" id="q9f"></div>
+  <hr class="hrule" style="margin-top:.75rem">
+  <p class="qprompt">20.0 mL of HCl is neutralized by 25.0 mL of 0.200 mol/L NaOH (1:1 ratio). What is [HCl]?</p>
+  <div id="q10o">
+    <div class="qopt" onclick="A('q10','a')">0.250 mol/L</div>
+    <div class="qopt" onclick="A('q10','b')">0.160 mol/L</div>
+    <div class="qopt" onclick="A('q10','c')">0.200 mol/L</div>
+    <div class="qopt" onclick="A('q10','d')">5.00 mol/L</div>
+  </div>
+  <div class="qfb" id="q10f"></div>
+  <button class="btn-next" onclick="goTo(5)">Next: Titration Curves &amp; Indicators →</button>
+</div>
+
+<!-- ===== MODULE 6: CURVES & INDICATORS ===== -->
+<div class="sec" id="s5">
+  <div class="cbox">
+    <p class="cbox-ttl">Titration curves &amp; choosing an indicator</p>
+    <p class="cbox-body">A titration curve plots pH against the volume of titrant added. Its shape depends on the acid and base used — and tells you which indicator will work best.</p>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a16')"><span>The shapes of titration curves</span><span class="acc-ico" id="a16-i">▼</span></div>
+    <div class="acc-body" id="a16">
+      <p>The pH at the equivalence point depends on the strengths of the acid and base:</p>
+      <p>• <strong>Strong acid + strong base</strong> → equivalence at pH 7 (neutral)</p>
+      <p>• <strong>Weak acid + strong base</strong> → equivalence at pH &gt; 7 (basic)</p>
+      <p>• <strong>Strong acid + weak base</strong> → equivalence at pH &lt; 7 (acidic)</p>
+      <div class="cl cl-t">Every curve has a steep, near-vertical jump near the equivalence point — that's where a single drop of titrant causes a big pH change.</div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a17')"><span>Choosing the right indicator</span><span class="acc-ico" id="a17-i">▼</span></div>
+    <div class="acc-body" id="a17">
+      <p>The golden rule: the indicator's colour-change range should fall within the steep jump of the curve, bracketing the equivalence point pH.</p>
+      <p>• Strong–strong (pH 7) → <strong>bromothymol blue</strong> (6.0–7.6)</p>
+      <p>• Weak acid–strong base (pH &gt; 7) → <strong>phenolphthalein</strong> (8.3–10.0)</p>
+      <p>• Strong acid–weak base (pH &lt; 7) → <strong>methyl orange</strong> (3.1–4.4)</p>
+      <div class="cl cl-a">If you pick an indicator whose range misses the steep part, it will change colour at the wrong volume and give you an inaccurate result.</div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-btn" onclick="tog('a18')"><span>Endpoint vs. equivalence point</span><span class="acc-ico" id="a18-i">▼</span></div>
+    <div class="acc-body" id="a18">
+      <p>These two terms are often mixed up:</p>
+      <p>• The <strong>equivalence point</strong> is the true point where acid and base are stoichiometrically equal.</p>
+      <p>• The <strong>endpoint</strong> is what you actually observe — the moment the indicator changes colour.</p>
+      <div class="cl cl-b">A well-chosen indicator makes the endpoint and equivalence point occur at almost the same volume, so your observed result matches the real one.</div>
+    </div>
+  </div>
+
+  <div class="ccard">
+    <p class="sec-lbl">Titration curve &amp; indicator explorer</p>
+    <div class="cl cl-a" style="margin:0 0 11px;"><strong>Note:</strong> these curves are <strong>illustrative</strong> — idealized shapes showing the qualitative differences between titration types, not plotted from real measurements.</div>
+    <div class="seg" id="tcseg"></div>
+    <svg viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:440px;display:block;margin:0 auto;">
+      <rect id="indband" x="46" y="0" width="338" height="0" fill="#4E9E5F" opacity="0.16"></rect>
+      <line x1="46" y1="20" x2="46" y2="232" stroke="#888780" stroke-width="1"/>
+      <line x1="46" y1="232" x2="384" y2="232" stroke="#888780" stroke-width="1"/>
+      <line x1="46" y1="126" x2="384" y2="126" stroke="#B4B2A9" stroke-width="0.5" stroke-dasharray="4 4"/>
+      <text x="38" y="235" text-anchor="end" font-size="10" fill="#888780">0</text>
+      <text x="38" y="129" text-anchor="end" font-size="10" fill="#888780">7</text>
+      <text x="38" y="25" text-anchor="end" font-size="10" fill="#888780">14</text>
+      <text x="20" y="126" text-anchor="middle" font-size="11" fill="#5F5E5A" transform="rotate(-90 20 126)">pH</text>
+      <text x="215" y="252" text-anchor="middle" font-size="11" fill="#5F5E5A">Volume of titrant added →</text>
+      <path id="tcurve" d="" fill="none" stroke="#4E9E5F" stroke-width="2.5"/>
+      <circle id="eqpt" cx="0" cy="0" r="5" fill="#BA7517" stroke="white" stroke-width="1.5" style="display:none"/>
+    </svg>
+    <div id="tcout" style="margin-top:6px;"></div>
+  </div>
+
+  <hr class="hrule">
+  <p class="qhead">Knowledge check — Module 6</p>
+  <p class="qprompt">A weak acid is titrated with a strong base (equivalence point pH ≈ 9). Which indicator is the best choice?</p>
+  <div id="q11o">
+    <div class="qopt" onclick="A('q11','a')">Methyl orange (changes 3.1–4.4)</div>
+    <div class="qopt" onclick="A('q11','b')">Phenolphthalein (changes 8.3–10.0)</div>
+    <div class="qopt" onclick="A('q11','c')">Any indicator works equally well</div>
+    <div class="qopt" onclick="A('q11','d')">No indicator can be used</div>
+  </div>
+  <div class="qfb" id="q11f"></div>
+  <hr class="hrule" style="margin-top:.75rem">
+  <p class="qprompt">What is the difference between the endpoint and the equivalence point?</p>
+  <div id="q12o">
+    <div class="qopt" onclick="A('q12','a')">They are exactly the same thing</div>
+    <div class="qopt" onclick="A('q12','b')">The equivalence point is the true stoichiometric point; the endpoint is where the indicator changes colour</div>
+    <div class="qopt" onclick="A('q12','c')">The endpoint always comes first by 10 mL</div>
+    <div class="qopt" onclick="A('q12','d')">The equivalence point only matters for weak acids</div>
+  </div>
+  <div class="qfb" id="q12f"></div>
+  <hr class="hrule" style="margin-top:.75rem">
+  <p class="qprompt">For a strong acid + strong base titration, what is the equivalence point pH, and a suitable indicator?</p>
+  <div id="q13o">
+    <div class="qopt" onclick="A('q13','a')">pH 7; bromothymol blue</div>
+    <div class="qopt" onclick="A('q13','b')">pH 2; methyl orange</div>
+    <div class="qopt" onclick="A('q13','c')">pH 11; phenolphthalein</div>
+    <div class="qopt" onclick="A('q13','d')">pH 7; but no indicator can work</div>
+  </div>
+  <div class="qfb" id="q13f"></div>
+
+  <div id="done" style="display:none;margin-top:1.25rem;padding:1.1rem 1.25rem;background:#E6F1DD;border-radius:var(--border-radius-lg);border:.5px solid #4E9E5F;">
+    <p style="font-size:15px;font-weight:500;color:#24492C;margin:0 0 5px;">Activity complete! 🎉</p>
+    <p style="font-size:13px;color:#346B40;margin:0 0 10px;">You've worked through all six modules on acids and bases. Review any section using the tabs above, or try a full practice problem.</p>
+    <button class="btn-next" onclick="sendPrompt('Give me a full Chemistry 20 practice problem on acids and bases. Include classifying a substance with Arrhenius theory, a pH/pOH calculation, choosing an indicator, and a titration calculation to find an unknown concentration. Show full worked solutions.')">Full practice problem ↗</button>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script>
+var cur=0, NSEC=6;
+function goTo(n){
+  document.getElementById('s'+cur).classList.remove('on');
+  document.getElementById('t'+cur).classList.remove('on');
+  cur=n;
+  document.getElementById('s'+n).classList.add('on');
+  document.getElementById('t'+n).classList.add('on');
+  document.getElementById('pb').style.width=((n+1)/NSEC*100)+'%';
+}
+function tog(id){
+  var el=document.getElementById(id), ico=document.getElementById(id+'-i');
+  var open=el.style.display!=='none'&&el.style.display!=='';
+  el.style.display=open?'none':'block';
+  if(ico) ico.classList.toggle('open',!open);
+}
+
+var QA={
+  q1:{c:'b',msg:'Correct! An Arrhenius acid produces hydrogen ions (H⁺, which combine with water to form hydronium, H₃O⁺) in aqueous solution.'},
+  q2:{c:'b',msg:'Correct! Those are observable, measurable behaviours — operational definitions. The theoretical explanation is that acids produce H⁺ ions.'},
+  q3:{c:'b',msg:'Correct! Strength refers to the degree of ionization. A strong acid ionizes almost completely; concentration is a separate idea.'},
+  q4:{c:'a',msg:'Correct! Strength and concentration are independent. You can absolutely have a dilute strong acid or a concentrated weak acid.'},
+  q5:{c:'a',msg:'Correct! pH = −log(1.0×10⁻²) = 2. Since pH < 7, the solution is acidic.'},
+  q6:{c:'b',msg:'Correct! pH + pOH = 14, so pOH = 14 − 11 = 3.'},
+  q7:{c:'b',msg:'Correct! Phenolphthalein is colourless below about pH 8.3, so a colourless result means the pH is below ~8.3.'},
+  q8:{c:'a',msg:'Correct! An indicator is a weak acid whose acid and base forms are different colours. As pH shifts, the balance between the forms changes gradually over a range.'},
+  q9:{c:'b',msg:'Correct! The equivalence point is when the moles of acid and base are stoichiometrically equal, based on the balanced equation.'},
+  q10:{c:'a',msg:'Correct! moles NaOH = 0.200 × 0.0250 = 5.00×10⁻³ mol. For 1:1, moles HCl = 5.00×10⁻³. [HCl] = 5.00×10⁻³ ÷ 0.0200 = 0.250 mol/L.'},
+  q11:{c:'b',msg:'Correct! The indicator range must bracket the equivalence point (~pH 9). Phenolphthalein (8.3–10.0) fits; methyl orange would change far too early.'},
+  q12:{c:'b',msg:'Correct! The equivalence point is the true stoichiometric point; the endpoint is the observed colour change. A good indicator makes them nearly coincide.'},
+  q13:{c:'a',msg:'Correct! Strong acid + strong base gives equivalence at pH 7, and bromothymol blue (6.0–7.6) brackets that perfectly.'}
+};
+function A(qid,chosen){
+  var q=QA[qid];
+  var opts=document.querySelectorAll('#'+qid+'o .qopt');
+  opts.forEach(function(o){o.classList.add('locked');});
+  var L=['a','b','c','d'];
+  opts[L.indexOf(chosen)].classList.add(chosen===q.c?'right':'wrong');
+  if(chosen!==q.c) opts[L.indexOf(q.c)].classList.add('right');
+  var fb=document.getElementById(qid+'f');
+  fb.textContent=(chosen===q.c?'✓ ':'✗ Not quite. ')+q.msg;
+  fb.className='qfb on '+(chosen===q.c?'right':'wrong');
+  if(qid==='q13' && chosen===q.c){
+    document.getElementById('t5').classList.add('done');
+    document.getElementById('done').style.display='block';
+  }
+}
+
+/* M1 — classify */
+var ARR=[
+  {f:'HCl',type:'Arrhenius acid',eq:'HCl → H⁺ + Cl⁻',note:'Produces H⁺ ions in water — an acid.',cls:'cl-r'},
+  {f:'NaOH',type:'Arrhenius base',eq:'NaOH → Na⁺ + OH⁻',note:'Produces OH⁻ ions in water — a base.',cls:'cl-b'},
+  {f:'HNO₃',type:'Arrhenius acid',eq:'HNO₃ → H⁺ + NO₃⁻',note:'Produces H⁺ ions — a strong acid.',cls:'cl-r'},
+  {f:'KOH',type:'Arrhenius base',eq:'KOH → K⁺ + OH⁻',note:'Produces OH⁻ ions — a strong base.',cls:'cl-b'},
+  {f:'H₂SO₄',type:'Arrhenius acid',eq:'H₂SO₄ → 2H⁺ + SO₄²⁻',note:'Produces H⁺ ions (two per molecule) — a strong diprotic acid.',cls:'cl-r'},
+  {f:'CH₃COOH',type:'Arrhenius acid (weak)',eq:'CH₃COOH ⇌ H⁺ + CH₃COO⁻',note:'Produces H⁺ ions but only partially ionizes — a weak acid (vinegar).',cls:'cl-r'},
+  {f:'NH₃',type:'Tricky for Arrhenius!',eq:'NH₃ + H₂O ⇌ NH₄⁺ + OH⁻',note:'Ammonia is basic but has no OH⁻ to release directly — Arrhenius theory struggles here. Brønsted–Lowry (Chem 30) explains it.',cls:'cl-a'}
+];
+function buildArr(){
+  var seg=document.getElementById('arrseg');
+  ARR.forEach(function(r,i){
+    var b=document.createElement('div');
+    b.className='segbtn'+(i===0?' on':'');
+    b.textContent=r.f;
+    b.onclick=function(){
+      document.querySelectorAll('#arrseg .segbtn').forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on'); showArr(i);
+    };
+    seg.appendChild(b);
+  });
+  showArr(0);
+}
+function showArr(i){
+  var r=ARR[i];
+  document.getElementById('arrout').innerHTML='<div class="fbox" style="margin:0 0 8px">'+r.eq+'</div><div class="cl '+r.cls+'" style="margin:0;"><strong>'+r.type+'.</strong> '+r.note+'</div>';
+}
+
+/* M2 — strong vs weak particles */
+function showStr(kind,btn){
+  document.querySelectorAll('#strseg .segbtn').forEach(function(x){x.classList.remove('on');});
+  btn.classList.add('on');
+  var svg='<rect x="120" y="20" width="160" height="120" rx="6" fill="none" stroke="#888780" stroke-width="1.5"/>';
+  svg+='<rect x="121" y="70" width="158" height="69" fill="#E6F1DD" opacity="0.5"/>';
+  var n=18, ionized = kind==='strong'? 17 : 2;
+  var positions=[];
+  for(var r=0;r<3;r++) for(var c=0;c<6;c++){ positions.push([138+c*24, 86+r*18]); }
+  for(var k=0;k<n;k++){
+    var x=positions[k][0], y=positions[k][1];
+    if(k<ionized){
+      svg+='<circle cx="'+(x-4)+'" cy="'+y+'" r="5" fill="#D64545"/><text x="'+(x-4)+'" y="'+(y+3)+'" font-size="7" fill="#fff" text-anchor="middle">+</text>';
+      svg+='<circle cx="'+(x+6)+'" cy="'+y+'" r="5" fill="#378ADD"/><text x="'+(x+6)+'" y="'+(y+3)+'" font-size="7" fill="#fff" text-anchor="middle">−</text>';
+    } else {
+      svg+='<rect x="'+(x-6)+'" y="'+(y-5)+'" width="14" height="10" rx="3" fill="#9B7BC0"/><text x="'+(x+1)+'" y="'+(y+3)+'" font-size="6" fill="#fff" text-anchor="middle">HA</text>';
+    }
+  }
+  // conductivity bulb
+  var bright = kind==='strong';
+  svg+='<circle cx="340" cy="55" r="18" fill="'+(bright?'#E8C53C':'#EFE6C0')+'" stroke="#888780" stroke-width="1"/>';
+  svg+='<text x="340" y="59" font-size="9" fill="'+(bright?'#7A5B00':'#A09877')+'" text-anchor="middle">'+(bright?'bright':'dim')+'</text>';
+  svg+='<text x="340" y="92" font-size="10" fill="#5F5E5A" text-anchor="middle">conductivity</text>';
+  svg+='<text x="200" y="158" font-size="10" fill="#5F5E5A" text-anchor="middle">'+(kind==='strong'?'≈100% ionized — mostly ions':'≈10% ionized — mostly intact HA molecules')+'</text>';
+  document.getElementById('strsvg').innerHTML=svg;
+  document.getElementById('strout').innerHTML='<div class="cl '+(kind==='strong'?'cl-t':'cl-a')+'" style="margin:8px 0 0;">'+(kind==='strong'
+    ? '<strong>Strong acid:</strong> almost every molecule splits into ions (red H⁺ and blue anions). Lots of ions → strong conductor → bright bulb.'
+    : '<strong>Weak acid:</strong> only a few molecules ionize; most stay as intact HA (purple). Few ions → weak conductor → dim bulb. Same concentration as the strong acid, very different behaviour.')+'</div>';
+}
+
+/* M3 — pH calc + scale */
+function calcpH(){
+  var m=parseFloat(document.getElementById('hin').value);
+  var e=parseInt(document.getElementById('hexp').value,10);
+  if(isNaN(m)||isNaN(e)||m<=0){ document.getElementById('phout').innerHTML='<p style="font-size:13px;color:#993C1D;">Enter a valid positive concentration.</p>'; drawScale(null); return; }
+  var H=m*Math.pow(10,e);
+  var pH=-Math.log10(H), pOH=14-pH, OH=Math.pow(10,-pOH);
+  var label=pH<7?'Acidic':(pH>7?'Basic':'Neutral');
+  var col=pH<7?'#993C1D':(pH>7?'#0C447C':'#24492C');
+  document.getElementById('phout').innerHTML='<div class="igrid" style="margin:0;"><div class="icard"><p class="icard-lbl">pH</p><p class="icard-val" style="color:'+col+';">'+pH.toFixed(2)+'</p></div><div class="icard"><p class="icard-lbl">pOH</p><p class="icard-val">'+pOH.toFixed(2)+'</p></div><div class="icard"><p class="icard-lbl">[OH⁻] (mol/L)</p><p class="icard-val" style="font-size:13px;">'+OH.toExponential(2)+'</p></div><div class="icard"><p class="icard-lbl">Classification</p><p class="icard-val" style="color:'+col+';font-size:14px;">'+label+'</p></div></div>';
+  drawScale(pH);
+}
+function uColor(pH){
+  if(pH<2)return '#C8302E'; if(pH<3)return '#D64545'; if(pH<4)return '#E06A2C';
+  if(pH<5)return '#E8843C'; if(pH<6)return '#E8A93C'; if(pH<6.8)return '#D8C13C';
+  if(pH<7.4)return '#4E9E5F'; if(pH<8.5)return '#3B9E8A'; if(pH<10)return '#3B6FB6';
+  if(pH<12)return '#3B52B6'; return '#6E3FA0';
+}
+function drawScale(pH){
+  var s='';
+  for(var i=0;i<14;i++){
+    var x=46+i*24;
+    s+='<rect x="'+x+'" y="10" width="24" height="20" fill="'+uColor(i+0.5)+'"/>';
+  }
+  for(var n=0;n<=14;n+=2){ s+='<text x="'+(46+n*24)+'" y="44" font-size="9" fill="#888780" text-anchor="middle">'+n+'</text>'; }
+  if(pH!==null && pH>=0 && pH<=14){
+    var mx=46+pH*24;
+    s+='<polygon points="'+mx+',6 '+(mx-5)+',-2 '+(mx+5)+',-2" fill="#28302A"/>';
+    s+='<line x1="'+mx+'" y1="8" x2="'+mx+'" y2="32" stroke="#28302A" stroke-width="2"/>';
+  }
+  document.getElementById('phscale').innerHTML=s;
+}
+
+/* M4 — indicators */
+function indMethyl(pH){ return pH<3.1?{c:'#D64545',w:'red'}:(pH>4.4?{c:'#E8C53C',w:'yellow'}:{c:'#E8843C',w:'orange'}); }
+function indLitmus(pH){ return pH<5?{c:'#D64545',w:'red'}:(pH>8?{c:'#3B6FB6',w:'blue'}:{c:'#9B6BB0',w:'purple'}); }
+function indBromo(pH){ return pH<6?{c:'#E8C53C',w:'yellow'}:(pH>7.6?{c:'#3B6FB6',w:'blue'}:{c:'#4E9E5F',w:'green'}); }
+function indPhenol(pH){ return pH<8.3?{c:'#F2F0E9',w:'colourless'}:(pH>10?{c:'#C84B8C',w:'pink'}:{c:'#E3A9C6',w:'pale pink'}); }
+function indUniv(pH){ return {c:uColor(pH),w:''}; }
+var INDS=[
+  {name:'Methyl orange',range:'3.1–4.4',fn:indMethyl},
+  {name:'Litmus',range:'~5–8',fn:indLitmus},
+  {name:'Bromothymol blue',range:'6.0–7.6',fn:indBromo},
+  {name:'Phenolphthalein',range:'8.3–10.0',fn:indPhenol},
+  {name:'Universal',range:'whole scale',fn:indUniv}
+];
+function buildInd(){
+  var row=document.getElementById('indrow'), h='';
+  INDS.forEach(function(ind,i){
+    h+='<div class="indcard"><div class="indsw" id="sw'+i+'"></div><p class="indname">'+ind.name+'</p><p class="indclr" id="cw'+i+'"></p><p class="indrange">'+ind.range+'</p></div>';
+  });
+  row.innerHTML=h;
+  updInd(7);
+}
+function updInd(v){
+  var pH=parseFloat(v);
+  document.getElementById('phrngval').textContent=pH.toFixed(1);
+  INDS.forEach(function(ind,i){
+    var r=ind.fn(pH);
+    var sw=document.getElementById('sw'+i);
+    sw.style.background=r.c;
+    document.getElementById('cw'+i).textContent=r.w;
+  });
+}
+
+/* M5 — titration calc */
+function calcTit(){
+  var tc=parseFloat(document.getElementById('tc').value);
+  var tv=parseFloat(document.getElementById('tv').value);
+  var sv=parseFloat(document.getElementById('sv').value);
+  var ratio=parseFloat(document.getElementById('ratio').value);
+  if([tc,tv,sv,ratio].some(function(x){return isNaN(x)||x<=0;})){ document.getElementById('titout').innerHTML='<p style="font-size:13px;color:#993C1D;">Enter valid positive values.</p>'; return; }
+  var molT=tc*(tv/1000);
+  var molS=molT/ratio;
+  var cS=molS/(sv/1000);
+  document.getElementById('titout').innerHTML='<div style="font-size:13px;color:var(--color-text-secondary);line-height:1.95;">'
+    +'<div>moles of titrant = C × V = '+tc+' × '+(tv/1000).toFixed(4)+' L = <strong style="color:var(--color-text-primary)">'+molT.toExponential(3)+' mol</strong></div>'
+    +'<div>moles of sample = moles titrant ÷ ratio = '+molT.toExponential(3)+' ÷ '+ratio+' = <strong style="color:var(--color-text-primary)">'+molS.toExponential(3)+' mol</strong></div>'
+    +'<div style="border-top:.5px solid var(--color-border-tertiary);margin:4px 0;"></div>'
+    +'<div>unknown concentration = moles ÷ volume = '+molS.toExponential(3)+' ÷ '+(sv/1000).toFixed(4)+' L</div>'
+    +'<div style="font-size:16px;font-weight:600;color:#346B40;">[sample] = '+cS.toFixed(4)+' mol/L</div></div>';
+}
+
+/* M6 — curves + indicator band */
+var TC={
+  ss:{label:'Strong acid + strong base',col:'#4E9E5F',eqV:25,eqPH:7.0,eqText:'Equivalence at pH 7 (neutral)',ind:'Bromothymol blue',indLo:6.0,indHi:7.6,
+      pts:[[0,1.0],[5,1.2],[10,1.5],[15,1.9],[20,2.5],[23,3.6],[24,4.6],[25,7.0],[26,9.4],[27,10.4],[30,11.4],[40,12.1],[50,12.5]]},
+  ws:{label:'Weak acid + strong base',col:'#BA7517',eqV:25,eqPH:8.7,eqText:'Equivalence at pH > 7 (basic)',ind:'Phenolphthalein',indLo:8.3,indHi:10.0,
+      pts:[[0,2.9],[5,4.0],[10,4.6],[12.5,4.74],[15,4.9],[20,5.6],[23,6.6],[24,7.3],[25,8.7],[26,10.3],[27,11.0],[30,11.6],[40,12.2],[50,12.5]]},
+  sw:{label:'Strong acid + weak base',col:'#378ADD',eqV:25,eqPH:5.3,eqText:'Equivalence at pH < 7 (acidic)',ind:'Methyl orange',indLo:3.1,indHi:4.4,
+      pts:[[0,11.1],[5,10.0],[10,9.4],[12.5,9.26],[15,9.1],[20,8.4],[23,7.4],[24,6.7],[25,5.3],[26,3.7],[27,3.0],[30,2.4],[40,1.8],[50,1.5]]}
+};
+function mapX(v){ return 46+(v/50)*338; }
+function mapY(ph){ return 232-(ph/14)*206; }
+function buildTC(){
+  var seg=document.getElementById('tcseg'), keys=['ss','ws','sw'];
+  keys.forEach(function(k,i){
+    var b=document.createElement('div');
+    b.className='segbtn'+(i===0?' on':'');
+    b.textContent=TC[k].label;
+    b.onclick=function(){
+      document.querySelectorAll('#tcseg .segbtn').forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on'); showTC(k);
+    };
+    seg.appendChild(b);
+  });
+  showTC('ss');
+}
+function showTC(k){
+  var c=TC[k];
+  var d='M'+mapX(c.pts[0][0]).toFixed(1)+' '+mapY(c.pts[0][1]).toFixed(1);
+  for(var i=1;i<c.pts.length;i++){ d+=' L'+mapX(c.pts[i][0]).toFixed(1)+' '+mapY(c.pts[i][1]).toFixed(1); }
+  var path=document.getElementById('tcurve'); path.setAttribute('d',d); path.setAttribute('stroke',c.col);
+  var ex=mapX(c.eqV), ey=mapY(c.eqPH);
+  var pt=document.getElementById('eqpt'); pt.setAttribute('cx',ex.toFixed(1)); pt.setAttribute('cy',ey.toFixed(1)); pt.style.display='block';
+  var band=document.getElementById('indband');
+  var yHi=mapY(c.indHi), yLo=mapY(c.indLo);
+  band.setAttribute('y',yHi.toFixed(1)); band.setAttribute('height',(yLo-yHi).toFixed(1)); band.setAttribute('fill',c.col);
+  document.getElementById('tcout').innerHTML='<div class="cl" style="margin:0;background:var(--color-background-secondary);color:var(--color-text-secondary);border-left:3px solid '+c.col+';border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;"><strong>'+c.eqText+'.</strong> The orange dot is the equivalence point; the shaded band shows the colour-change range of <strong>'+c.ind+'</strong> ('+c.indLo+'–'+c.indHi+') — it brackets the steep jump, so it is the right indicator for this titration.</div>';
+}
+
+buildArr(); showStr('strong',document.querySelector('#strseg .segbtn')); calcpH(); buildInd(); calcTit(); buildTC();
+['a1','a2','a3','a4','a5','a6','a7','a8','a9','a10','a11','a12','a13','a14','a15','a16','a17','a18'].forEach(function(id){
+  var el=document.getElementById(id); if(el) el.style.display='none';
+});
+</script>
